@@ -1,0 +1,7 @@
+change_door	change_door
+create_game	create_game
+determine_winner	determine_winner
+open_goat_door	open_goat_door
+play_game	play_game
+play_n_games	play_n_games
+select_door	select_door

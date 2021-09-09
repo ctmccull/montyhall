@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add together geo_list or json objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for geojson-add {geojsonio}"><tr><td>geojson-add {geojsonio}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Add together geo_list or json objects</h2>
+
+<h3>Description</h3>
+
+<p>Add together geo_list or json objects
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'geo_list'
+x1 + x2
+
+## S3 method for class 'json'
+x1 + x2
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x1</code></td>
+<td>
+<p>An object of class <code>geo_list</code> or <code>json</code></p>
+</td></tr>
+<tr valign="top"><td><code>x2</code></td>
+<td>
+<p>A component to add to <code>x1</code>, of class <code>geo_list</code> or <code>json</code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If the first object is an object of class <code>geo_list</code>, you
+can add another object of class <code>geo_list</code> or of class <code>json</code>,
+and will result  in a <code>geo_list</code> object.
+</p>
+<p>If the first object is an object of class <code>json</code>, you can add
+another object of class <code>json</code> or of class <code>geo_list</code>, and will result
+in a <code>json</code> object.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../geojsonio/help/geojson_list.html">geojson_list()</a></code>, <code><a href="../../geojsonio/help/geojson_json.html">geojson_json()</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+# geo_list + geo_list
+## Note: geo_list is the output type from geojson_list, it's just a list with
+## a class attached so we know it's geojson :)
+vec &lt;- c(-99.74,32.45)
+a &lt;- geojson_list(vec)
+vecs &lt;- list(c(100.0,0.0), c(101.0,0.0), c(101.0,1.0),
+  c(100.0,1.0), c(100.0,0.0))
+b &lt;- geojson_list(vecs, geometry="polygon")
+a + b
+
+# json + json
+c &lt;- geojson_json(c(-99.74,32.45))
+vecs &lt;- list(c(100.0,0.0), c(101.0,0.0), c(101.0,1.0),
+  c(100.0,1.0), c(100.0,0.0))
+d &lt;- geojson_json(vecs, geometry="polygon")
+c + d
+(c + d) %&gt;% pretty
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>geojsonio</em> version 0.9.4 <a href="00Index.html">Index</a>]</div>
+</body></html>

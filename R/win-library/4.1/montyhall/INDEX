@@ -1,0 +1,7 @@
+change_door             Stay or Switch doors
+create_game             Create a new Monty Hall Problem game.
+determine_winner        Determine Game Winner
+open_goat_door          Open Door With Goat
+play_game               Play Whole Game
+play_n_games            Play N Whole Games
+select_door             Player Selects Door

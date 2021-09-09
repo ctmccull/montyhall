@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Write TopoJSON from various inputs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for topojson_write {geojsonio}"><tr><td>topojson_write {geojsonio}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Write TopoJSON from various inputs</h2>
+
+<h3>Description</h3>
+
+<p><code>topojson_write()</code> is temporarily defunct; check back later
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+topojson_write(
+  input,
+  lat = NULL,
+  lon = NULL,
+  geometry = "point",
+  group = NULL,
+  file = "myfile.topojson",
+  overwrite = TRUE,
+  precision = NULL,
+  convert_wgs84 = FALSE,
+  crs = NULL,
+  object_name = "foo",
+  quantization = 0,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>input</code></td>
+<td>
+<p>Input list, data.frame, spatial class, or sf class.
+Inputs can  also be dplyr <code>tbl_df</code> class since it inherits
+from <code>data.frame</code></p>
+</td></tr>
+<tr valign="top"><td><code>lat</code></td>
+<td>
+<p>(character) Latitude name. The default is <code>NULL</code>, and we
+attempt to guess.</p>
+</td></tr>
+<tr valign="top"><td><code>lon</code></td>
+<td>
+<p>(character) Longitude name. The default is <code>NULL</code>, and we
+attempt to guess.</p>
+</td></tr>
+<tr valign="top"><td><code>geometry</code></td>
+<td>
+<p>(character) One of point (Default) or polygon.</p>
+</td></tr>
+<tr valign="top"><td><code>group</code></td>
+<td>
+<p>(character) A grouping variable to perform grouping for
+polygons - doesn't apply for points</p>
+</td></tr>
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>(character) A path and file name (e.g., myfile), with the
+<code>.geojson</code> file extension. Default writes to current working
+directory.</p>
+</td></tr>
+<tr valign="top"><td><code>overwrite</code></td>
+<td>
+<p>(logical) Overwrite the file given in <code>file</code> with
+<code>input</code>. Default: <code>TRUE</code>. If this param is <code>FALSE</code> and
+the file already exists, we stop with error message.</p>
+</td></tr>
+<tr valign="top"><td><code>precision</code></td>
+<td>
+<p>desired number of decimal places for the coordinates in the
+geojson file. Using fewer decimal places can decrease file sizes (at the
+cost of precision).</p>
+</td></tr>
+<tr valign="top"><td><code>convert_wgs84</code></td>
+<td>
+<p>Should the input be converted to the
+standard CRS for GeoJSON (https://tools.ietf.org/html/rfc7946)
+(geographic coordinate reference
+system, using the WGS84 datum, with longitude and latitude units of decimal
+degrees; EPSG: 4326). Default is <code>FALSE</code> though this may change in a
+future package version. This will only work for <code>sf</code> or <code>Spatial</code>
+objects with a CRS already defined. If one is not defined but you know what
+it is, you may define it in the <code>crs</code> argument below.</p>
+</td></tr>
+<tr valign="top"><td><code>crs</code></td>
+<td>
+<p>The CRS of the input if it is not already defined. This can be
+an epsg code as a four or five digit integer or a valid proj4 string. This
+argument will be ignored if <code>convert_wgs84</code> is <code>FALSE</code> or the
+object already has a CRS.</p>
+</td></tr>
+<tr valign="top"><td><code>object_name</code></td>
+<td>
+<p>(character) name to give to the TopoJSON object created.
+Default: &quot;foo&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>quantization</code></td>
+<td>
+<p>(numeric) quantization parameter, use this to
+quantize geometry prior to computing topology. Typical values are powers of
+ten (<code>1e4</code>, <code>1e5</code>, ...), default is <code>0</code> to not perform quantization.
+For more information about quantization, see this by Mike Bostock
+https://stackoverflow.com/questions/18900022/topojson-quantization-vs-simplification/18921214#18921214</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further args passed on to internal functions. For Spatial*
+classes, data.frames,
+regular lists, and numerics, it is passed through to
+<code><a href="../../sf/help/st_write.html">sf::st_write()</a></code>. For sf classes,
+geo_lists and json classes, it is passed through to
+<code><a href="../../jsonlite/help/fromJSON.html">jsonlite::toJSON()</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Under the hood we simply wrap <code><a href="../../geojsonio/help/geojson_write.html">geojson_write()</a></code>, then
+take the GeoJSON output of that operation, then convert to TopoJSON with
+<code><a href="../../geojsonio/help/geo2topo.html">geo2topo()</a></code>, then write to disk.
+</p>
+<p>Unfortunately, this process requires a number of round trips to disk, so
+speed ups will hopefully come soon.
+</p>
+<p>Any intermediate geojson files are cleaned up (deleted).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <code>topojson_write</code> class, with two elements:
+</p>
+
+<ul>
+<li><p> path: path to the file with the TopoJSON
+</p>
+</li>
+<li><p> type: type of object the TopoJSON came from, e.g., SpatialPoints
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../geojsonio/help/geojson_write.html">geojson_write()</a></code>, <code><a href="../../geojsonio/help/topojson_read.html">topojson_read()</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>geojsonio</em> version 0.9.4 <a href="00Index.html">Index</a>]</div>
+</body></html>

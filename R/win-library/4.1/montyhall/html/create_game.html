@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a new Monty Hall Problem game.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for create_game {montyhall}"><tr><td>create_game {montyhall}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a new Monty Hall Problem game.</h2>
+
+<h3>Description</h3>
+
+<p><code>create_game()</code> generates a new game that consists of two doors
+with goats behind them, and one with a car.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+create_game()
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>no arguments are used by the function.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The game setup replicates the game on the TV show &quot;Let's
+Make a Deal&quot; where there are three doors for a contestant
+to choose from, one of which has a car behind it and two
+have goats. The contestant selects a door, then the host
+opens a door to reveal a goat, and then the contestant is
+given an opportunity to stay with their original selection
+or switch to the other unopened door. There was a famous
+debate about whether it was optimal to stay or switch when
+given the option to switch, so this simulation was created
+to test both strategies.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function returns a length 3 character vector
+indicating the positions of goats and the car.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  create_game()
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>montyhall</em> version 0.0.0.9000 <a href="00Index.html">Index</a>]</div>
+</body></html>

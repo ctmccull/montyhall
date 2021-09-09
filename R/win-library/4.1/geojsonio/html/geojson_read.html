@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Read geojson or other formats from a local file or a URL</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for geojson_read {geojsonio}"><tr><td>geojson_read {geojsonio}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Read geojson or other formats from a local file or a URL</h2>
+
+<h3>Description</h3>
+
+<p>Read geojson or other formats from a local file or a URL
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+geojson_read(
+  x,
+  parse = FALSE,
+  what = "list",
+  stringsAsFactors = FALSE,
+  query = NULL,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>(character) Path to a local file or a URL.</p>
+</td></tr>
+<tr valign="top"><td><code>parse</code></td>
+<td>
+<p>(logical) To parse geojson to data.frame like structures if
+possible. Default: <code>FALSE</code></p>
+</td></tr>
+<tr valign="top"><td><code>what</code></td>
+<td>
+<p>(character) What to return. One of &quot;list&quot;, &quot;sp&quot; (for
+Spatial class), or &quot;json&quot;. Default: &quot;list&quot;. &quot;list&quot; &quot;and&quot; sp run through
+package <span class="pkg">sf</span>. if &quot;json&quot;, returns json as character class</p>
+</td></tr>
+<tr valign="top"><td><code>stringsAsFactors</code></td>
+<td>
+<p>Convert strings to Factors? Default <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>query</code></td>
+<td>
+<p>(character) A SQL query, see also <a href="../../geojsonio/help/postgis.html">postgis</a></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further args passed on to <code><a href="../../sf/help/st_read.html">sf::st_read()</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function supports various geospatial file formats from a URL,
+as well as local kml, shp, and geojson file formats.
+</p>
+
+
+<h3>Value</h3>
+
+<p>various, depending on what's chosen in <code>what</code> parameter
+</p>
+
+<ul>
+<li><p> list: geojson as a list using <code><a href="../../jsonlite/help/fromJSON.html">jsonlite::fromJSON()</a></code>
+</p>
+</li>
+<li><p> sp: geojson as an sp class object using <code><a href="../../sf/help/st_read.html">sf::st_read()</a></code>
+</p>
+</li>
+<li><p> json: geojson as character string, to parse downstream as you wish
+</p>
+</li></ul>
+
+
+
+<h3>Linting GeoJSON</h3>
+
+<p>If you're having trouble rendering GeoJSON files, ensure you have a valid
+GeoJSON file by running it through the package <code>geojsonlint</code>, which
+has a variety of different GeoJSON linters.
+</p>
+
+
+<h3>File size</h3>
+
+<p>We previously used <code><a href="../../geojsonio/help/file_to_geojson.html">file_to_geojson()</a></code> in this function, leading to
+file size problems; this should no longer be a concern, but let us know
+if you run into file size problems
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../geojsonio/help/topojson_read.html">topojson_read()</a></code>, <code><a href="../../geojsonio/help/geojson_write.html">geojson_write()</a></code> <a href="../../geojsonio/help/postgis.html">postgis</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+# From a file
+file &lt;- system.file("examples", "california.geojson", package = "geojsonio")
+(out &lt;- geojson_read(file))
+geojson_read(file)
+
+# From a URL
+url &lt;- "https://raw.githubusercontent.com/glynnbird/usstatesgeojson/master/california.geojson"
+geojson_read(url)
+geojson_read(url, parse = TRUE)
+
+# Use as.location first if you want
+geojson_read(as.location(file))
+
+# output a SpatialClass object
+## read kml
+file &lt;- system.file("examples", "norway_maple.kml", package = "geojsonio")
+geojson_read(as.location(file), what = "sp")
+## read geojson
+file &lt;- system.file("examples", "california.geojson", package = "geojsonio")
+geojson_read(as.location(file), what = "sp")
+## read geojson from a url
+url &lt;- "https://raw.githubusercontent.com/glynnbird/usstatesgeojson/master/california.geojson"
+geojson_read(url, what = "sp")
+## read from a shape file
+file &lt;- system.file("examples", "bison.zip", package = "geojsonio")
+dir &lt;- tempdir()
+unzip(file, exdir = dir)
+shpfile &lt;- list.files(dir, pattern = ".shp", full.names = TRUE)
+geojson_read(shpfile, what = "sp")
+
+x &lt;- "https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json"
+geojson_read(x, what = "sp")
+geojson_read(x, what = "list")
+
+utils::download.file(x, destfile = basename(x))
+geojson_read(basename(x), what = "sp")
+
+# from a Postgres database - your Postgres instance must be running
+## MAKE SURE to run the setup in the postgis manual file first!
+if (requireNamespace("DBI") &amp;&amp; requireNamespace("RPostgres")) {
+library(DBI)
+conn &lt;- tryCatch(dbConnect(RPostgres::Postgres(), dbname = 'postgistest'), 
+ error = function(e) e)
+if (inherits(conn, "PqConnection")) {
+  state &lt;- "SELECT row_to_json(fc)
+   FROM (SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features
+   FROM (SELECT 'Feature' As type
+     , ST_AsGeoJSON(lg.geog)::json As geometry
+     , row_to_json((SELECT l FROM (SELECT loc_id, loc_name) As l
+       )) As properties
+    FROM locations As lg   ) As f )  As fc;"
+  json &lt;- geojson_read(conn, query = state, what = "json")
+  map_leaf(json)
+ }
+}
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>geojsonio</em> version 0.9.4 <a href="00Index.html">Index</a>]</div>
+</body></html>

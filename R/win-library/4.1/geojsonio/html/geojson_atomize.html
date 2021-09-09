@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Atomize</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for geojson_atomize {geojsonio}"><tr><td>geojson_atomize {geojsonio}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Atomize</h2>
+
+<h3>Description</h3>
+
+<p>Atomize
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+geojson_atomize(x, combine = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>(geo_list/geo_json/json/character) input object, either
+<code>geo_json</code>, <code>geo_list</code>, <code>json</code>, or <code>character</code> class.
+If <code>character</code>, must be valid JSON</p>
+</td></tr>
+<tr valign="top"><td><code>combine</code></td>
+<td>
+<p>(logical) only applies to <code>geo_json/json</code> type inputs.
+combine valid JSON objects into a single valid JSON object. Default:
+<code>TRUE</code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A FeatureCollection is split into many Feature's, and
+a GeometryCollection is split into many geometries
+</p>
+<p>Internally we use <span class="pkg">jqr</span> for JSON parsing
+</p>
+
+
+<h3>Value</h3>
+
+<p>same class as input object, but modified
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+################# lists 
+# featurecollection -&gt; features
+mylist &lt;- list(list(latitude=30, longitude=120, marker="red"),
+          list(latitude=30, longitude=130, marker="blue"))
+(x &lt;- geojson_list(mylist))
+geojson_atomize(x)
+
+# geometrycollection -&gt; geometries
+mylist &lt;- list(list(latitude=30, longitude=120, marker="red"),
+          list(latitude=30, longitude=130, marker="blue"))
+(x &lt;- geojson_list(mylist, type = "GeometryCollection"))
+geojson_atomize(x)
+
+# sf class
+library(sf)
+p1 &lt;- rbind(c(0,0), c(1,0), c(3,2), c(2,4), c(1,4), c(0,0))
+poly &lt;- rbind(c(1,1), c(1,2), c(2,2), c(1,1))
+poly_sfg &lt;- st_polygon(list(p1))
+(x &lt;- geojson_list(poly_sfg))
+geojson_atomize(x)
+
+################# json 
+# featurecollection -&gt; features
+mylist &lt;- list(list(latitude=30, longitude=120, marker="red"),
+               list(latitude=30, longitude=130, marker="blue"))
+(x &lt;- geojson_json(mylist))
+geojson_atomize(x)
+geojson_atomize(x, FALSE)
+
+# geometrycollection -&gt; geometries
+mylist &lt;- list(list(latitude=30, longitude=120, marker="red"),
+               list(latitude=30, longitude=130, marker="blue"))
+(x &lt;- geojson_json(mylist, type = "GeometryCollection"))
+geojson_atomize(x)
+geojson_atomize(x, FALSE)
+
+# sf class
+library(sf)
+nc &lt;- st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
+(x &lt;- geojson_json(nc))
+geojson_atomize(x)
+geojson_atomize(x, FALSE)
+
+################# character
+# featurecollection -&gt; features
+mylist &lt;- list(list(latitude=30, longitude=120, marker="red"),
+               list(latitude=30, longitude=130, marker="blue"))
+(x &lt;- geojson_json(mylist))
+geojson_atomize(unclass(x))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>geojsonio</em> version 0.9.4 <a href="00Index.html">Index</a>]</div>
+</body></html>

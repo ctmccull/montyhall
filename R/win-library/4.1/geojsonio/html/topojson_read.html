@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Read topojson from a local file or a URL</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for topojson_read {geojsonio}"><tr><td>topojson_read {geojsonio}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Read topojson from a local file or a URL</h2>
+
+<h3>Description</h3>
+
+<p>Read topojson from a local file or a URL
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+topojson_read(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Path to a local file or a URL.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further args passed on to <code><a href="../../sf/help/st_read.html">sf::st_read()</a></code>. Can use any args
+from <code>sf::st_read()</code> except <code>quiet</code>, which we have set as <code>quiet = TRUE</code>
+internally already</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Returns a <code>sf</code> class, but you can easily and quickly get
+this to geojson, see examples.
+</p>
+<p>Note that this does not give you Topojson, but gives you a <code>sf</code>
+class - which you can use then to turn it into geojson as a list or json
+</p>
+
+
+<h3>Value</h3>
+
+<p>an object of class <code>sf</code>/<code>data.frame</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../geojsonio/help/geojson_read.html">geojson_read()</a></code>, <code><a href="../../geojsonio/help/topojson_write.html">topojson_write()</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+# From a file
+file &lt;- system.file("examples", "us_states.topojson", package = "geojsonio")
+topojson_read(file)
+
+# From a URL
+url &lt;- "https://raw.githubusercontent.com/shawnbot/d3-cartogram/master/data/us-states.topojson"
+topojson_read(url)
+
+# Use as.location first if you want
+topojson_read(as.location(file))
+
+# quickly convert to geojson as a list
+file &lt;- system.file("examples", "us_states.topojson", package = "geojsonio")
+tmp &lt;- topojson_read(file)
+geojson_list(tmp)
+geojson_json(tmp)
+
+# pass on args
+topojson_read(file, quiet = TRUE)
+topojson_read(file, stringsAsFactors = FALSE)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>geojsonio</em> version 0.9.4 <a href="00Index.html">Index</a>]</div>
+</body></html>

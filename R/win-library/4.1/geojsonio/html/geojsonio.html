@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: *I/O for GeoJSON*</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for geojsonio {geojsonio}"><tr><td>geojsonio {geojsonio}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2><strong>I/O for GeoJSON</strong></h2>
+
+<h3>Description</h3>
+
+<p>Convert various data formats to/from GeoJSON or TopoJSON. This
+package focuses mostly on converting lists, data.frame's, numeric,
+SpatialPolygons, SpatialPolygonsDataFrame, and more to GeoJSON with the
+help of <span class="pkg">sf</span>. You can currently read TopoJSON - writing
+TopoJSON will come in a future version of this package.
+</p>
+
+
+<h3>Package organization</h3>
+
+<p>The core functions in this package are organized first around what you're
+working with or want to get, GeoJSON or TopoJSON, then convert to or read
+from various formats:
+</p>
+
+<ul>
+<li> <p><code><a href="../../geojsonio/help/geojson_list.html">geojson_list()</a></code> / <code><a href="../../geojsonio/help/topojson_list.html">topojson_list()</a></code> - convert
+to GeoJSON or TopoJSON as R list format
+</p>
+</li>
+<li> <p><code><a href="../../geojsonio/help/geojson_json.html">geojson_json()</a></code> / <code><a href="../../geojsonio/help/topojson_json.html">topojson_json()</a></code> - convert
+to GeoJSON or TopoJSON as JSON
+</p>
+</li>
+<li> <p><code><a href="../../geojsonio/help/geojson_sp.html">geojson_sp()</a></code> - convert to a spatial object from
+<code>geojson_list</code> or <code>geojson_json</code>
+</p>
+</li>
+<li> <p><code><a href="../../geojsonio/help/geojson_sf.html">geojson_sf()</a></code> - convert to an sf object from
+<code>geojson_list</code> or <code>geojson_json</code>
+</p>
+</li>
+<li> <p><code><a href="../../geojsonio/help/geojson_read.html">geojson_read()</a></code> / <code><a href="../../geojsonio/help/topojson_read.html">topojson_read()</a></code> - read a
+GeoJSON/TopoJSON file from file path or URL
+</p>
+</li>
+<li> <p><code><a href="../../geojsonio/help/geojson_write.html">geojson_write()</a></code> / <code><a href="../../geojsonio/help/topojson_write.html">topojson_write()</a></code> - write
+a GeoJSON file locally (TopoJSON coming later)
+</p>
+</li></ul>
+
+<p>Other interesting functions:
+</p>
+
+<ul>
+<li> <p><code><a href="../../geojsonio/help/map_gist.html">map_gist()</a></code> - Create a GitHub gist (renders as an
+interactive map)
+</p>
+</li>
+<li> <p><code><a href="../../geojsonio/help/map_leaf.html">map_leaf()</a></code> - Create a local interactive map using the
+<code>leaflet</code> package
+</p>
+</li>
+<li> <p><code><a href="../../geojsonio/help/geo2topo.html">geo2topo()</a></code> - Convert GeoJSON to TopoJSON
+</p>
+</li>
+<li> <p><code><a href="../../geojsonio/help/topo2geo.html">topo2geo()</a></code> - Convert TopoJSON to GeoJSON
+</p>
+</li></ul>
+
+<p>All of the above functions have methods for various classes, including
+<code>numeric</code> vectors, <code>data.frame</code>, <code>list</code>, <code>SpatialPolygons</code>, <code>SpatialLines</code>,
+<code>SpatialPoints</code>, and many more - which will try to do the right thing
+based on the data you give as input.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Scott Chamberlain
+</p>
+<p>Andy Teucher <a href="mailto:andy.teucher@gmail.com">andy.teucher@gmail.com</a>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>geojsonio</em> version 0.9.4 <a href="00Index.html">Index</a>]</div>
+</body></html>

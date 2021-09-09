@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get bounds for a list or geo_list</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for bounds {geojsonio}"><tr><td>bounds {geojsonio}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get bounds for a list or geo_list</h2>
+
+<h3>Description</h3>
+
+<p>Get bounds for a list or geo_list
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bounds(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An object of class list or geo_list</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Ignored</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A vector of the form min longitude, min latitude, max longitude,
+max latitude
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# numeric 
+vec &lt;- c(-99.74,32.45)
+x &lt;- geojson_list(vec)
+bounds(x)
+
+# list
+mylist &lt;- list(list(latitude=30, longitude=120, marker="red"),
+               list(latitude=30, longitude=130, marker="blue"))
+x &lt;- geojson_list(mylist)
+bounds(x)
+
+# data.frame
+x &lt;- geojson_list(states[1:20,])
+bounds(x)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>geojsonio</em> version 0.9.4 <a href="00Index.html">Index</a>]</div>
+</body></html>

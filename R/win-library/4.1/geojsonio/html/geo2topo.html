@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: GeoJSON to TopoJSON and back</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for geo2topo {geojsonio}"><tr><td>geo2topo {geojsonio}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>GeoJSON to TopoJSON and back</h2>
+
+<h3>Description</h3>
+
+<p>GeoJSON to TopoJSON and back
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+geo2topo(x, object_name = "foo", quantization = 0, ...)
+
+topo2geo(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>GeoJSON or TopoJSON as a character string, json, a file path, or
+url</p>
+</td></tr>
+<tr valign="top"><td><code>object_name</code></td>
+<td>
+<p>(character) name to give to the TopoJSON object created.
+Default: &quot;foo&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>quantization</code></td>
+<td>
+<p>(numeric) quantization parameter, use this to
+quantize geometry prior to computing topology. Typical values are powers of
+ten (<code>1e4</code>, <code>1e5</code>, ...), default is <code>0</code> to not perform quantization.
+For more information about quantization, see this by Mike Bostock
+https://stackoverflow.com/questions/18900022/topojson-quantization-vs-simplification/18921214#18921214</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>for <code>geo2topo</code> args passed  on to
+<code><a href="../../jsonlite/help/fromJSON.html">jsonlite::fromJSON()</a></code>, and for <code>topo2geo</code> args passed  on to
+<code><a href="../../sf/help/st_read.html">sf::st_read()</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>json</code>, of either GeoJSON or TopoJSON
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../geojsonio/help/topojson_write.html">topojson_write()</a></code>, <code><a href="../../geojsonio/help/topojson_read.html">topojson_read()</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# geojson to topojson
+x &lt;- '{"type": "LineString", "coordinates": [ [100.0, 0.0], [101.0, 1.0] ]}'
+z &lt;- geo2topo(x)
+jsonlite::prettify(z)
+## Not run: 
+library(leaflet)
+leaflet() %&gt;%
+  addProviderTiles(provider = "Stamen.Terrain") %&gt;%
+  addTopoJSON(z)
+
+## End(Not run)
+
+# geojson to topojson as a list
+x &lt;- list(
+ '{"type": "LineString", "coordinates": [ [100, 0], [101, 1] ]}',
+ '{"type": "LineString", "coordinates": [ [110, 0], [110, 1] ]}',
+ '{"type": "LineString", "coordinates": [ [120, 0], [121, 1] ]}'
+)
+geo2topo(x)
+
+# change the object name created
+x &lt;- '{"type": "LineString", "coordinates": [ [100.0, 0.0], [101.0, 1.0] ]}'
+geo2topo(x, object_name = "HelloWorld")
+geo2topo(x, object_name = "4")
+
+x &lt;- list(
+ '{"type": "LineString", "coordinates": [ [100, 0], [101, 1] ]}',
+ '{"type": "LineString", "coordinates": [ [110, 0], [110, 1] ]}',
+ '{"type": "LineString", "coordinates": [ [120, 0], [121, 1] ]}'
+)
+geo2topo(x, "HelloWorld")
+geo2topo(x, c("A", "B", "C"))
+
+
+# topojson to geojson
+w &lt;- topo2geo(z)
+jsonlite::prettify(w)
+
+## larger examples
+file &lt;- system.file("examples", "us_states.topojson", package = "geojsonio")
+topo2geo(file)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>geojsonio</em> version 0.9.4 <a href="00Index.html">Index</a>]</div>
+</body></html>

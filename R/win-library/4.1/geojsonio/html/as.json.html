@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert inputs to JSON</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for as.json {geojsonio}"><tr><td>as.json {geojsonio}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert inputs to JSON</h2>
+
+<h3>Description</h3>
+
+<p>Convert inputs to JSON
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+as.json(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Input</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further args passed on to <code><a href="../../jsonlite/help/fromJSON.html">jsonlite::toJSON()</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>when the output of <code><a href="../../geojsonio/help/topojson_list.html">topojson_list()</a></code> is given to
+this function we use a special internal fxn <code>astjl()</code> to
+parse the object - see that fxn and let us know if any
+problems you run in to
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+(res &lt;- geojson_list(us_cities[1:2,], lat='lat', lon='long'))
+as.json(res)
+as.json(res, pretty = TRUE)
+
+vec &lt;- c(-99.74,32.45)
+as.json(geojson_list(vec))
+as.json(geojson_list(vec), pretty = TRUE)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>geojsonio</em> version 0.9.4 <a href="00Index.html">Index</a>]</div>
+</body></html>

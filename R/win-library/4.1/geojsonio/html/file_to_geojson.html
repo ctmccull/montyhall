@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert spatial data files to GeoJSON from various formats.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for file_to_geojson {geojsonio}"><tr><td>file_to_geojson {geojsonio}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert spatial data files to GeoJSON from various formats.</h2>
+
+<h3>Description</h3>
+
+<p>You can use a web interface called Ogre, or do conversions locally using the
+sf package.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+file_to_geojson(
+  input,
+  method = "web",
+  output = ".",
+  parse = FALSE,
+  encoding = "CP1250",
+  verbose = FALSE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>input</code></td>
+<td>
+<p>The file being uploaded, path to the file on your machine.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>(character) One of &quot;web&quot; (default) or &quot;local&quot;. Matches on
+partial strings. This parameter determines how the data is
+read. &quot;web&quot; means we use the Ogre web service, and &quot;local&quot; means we use
+<span class="pkg">sf</span>. See Details fore more.</p>
+</td></tr>
+<tr valign="top"><td><code>output</code></td>
+<td>
+<p>Destination for output geojson file. Defaults to current
+working directory, and gives a random alphanumeric file name</p>
+</td></tr>
+<tr valign="top"><td><code>parse</code></td>
+<td>
+<p>(logical) To parse geojson to data.frame like structures if
+possible. Default: <code>FALSE</code></p>
+</td></tr>
+<tr valign="top"><td><code>encoding</code></td>
+<td>
+<p>(character) The encoding passed to <code><a href="../../sf/help/st_read.html">sf::st_read()</a></code>.
+Default: CP1250</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>(logical) Printing of <code><a href="../../sf/help/st_read.html">sf::st_read()</a></code> progress.
+Default: <code>FALSE</code></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional parameters passed to <code><a href="../../sf/help/st_read.html">st_read</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>path for the geojson file
+</p>
+
+
+<h3>Method parameter</h3>
+
+<p>The web option uses the Ogre web API. Ogre currently has an output size
+limit of 15MB. See here <a href="http://ogre.adc4gis.com/">http://ogre.adc4gis.com/</a> for info on the
+Ogre web API. The local option uses the function <code><a href="../../sf/help/st_write.html">st_write</a></code>
+from the package rgdal.
+</p>
+
+
+<h3>Ogre</h3>
+
+<p>Note that for Shapefiles, GML, MapInfo, and VRT, you need to send zip files
+to Ogre. For other file types (.bna, .csv, .dgn, .dxf, .gxt, .txt, .json,
+.geojson, .rss, .georss, .xml, .gmt, .kml, .kmz) you send the actual file
+with that file extension.
+</p>
+
+
+<h3>Linting GeoJSON</h3>
+
+<p>If you're having trouble rendering GeoJSON files, ensure you have a valid
+GeoJSON file by running it through the package <span class="pkg">geojsonlint</span>, which
+has a variety of different GeoJSON linters.
+</p>
+
+
+<h3>File size</h3>
+
+<p>When using <code>method="web"</code>, be aware of file sizes.
+https://ogre.adc4gis.com that we use for this option does not document
+what file size is too large, but you should get an error message like
+&quot;maximum file length exceeded&quot; when that happens. <code>method="local"</code>
+shouldn't be sensitive to file sizes.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+file &lt;- system.file("examples", "norway_maple.kml", package = "geojsonio")
+
+# KML type file - using the web method
+file_to_geojson(input=file, method='web', output='kml_web')
+## read into memory
+file_to_geojson(input=file, method='web', output = ":memory:")
+file_to_geojson(input=file, method='local', output = ":memory:")
+
+# KML type file - using the local method
+file_to_geojson(input=file, method='local', output='kml_local')
+
+# Shp type file - using the web method - input is a zipped shp bundle
+file &lt;- system.file("examples", "bison.zip", package = "geojsonio")
+file_to_geojson(file, method='web', output='shp_web')
+
+# Shp type file - using the local method - input is the actual .shp file
+file &lt;- system.file("examples", "bison.zip", package = "geojsonio")
+dir &lt;- tempdir()
+unzip(file, exdir = dir)
+list.files(dir)
+shpfile &lt;- file.path(dir, "bison-Bison_bison-20130704-120856.shp")
+file_to_geojson(shpfile, method='local', output='shp_local')
+
+# geojson with .json extension
+## this doesn't work anymore, hmmm
+# x &lt;- gsub("\n", "", paste0('https://gist.githubusercontent.com/hunterowens/
+# 25ea24e198c80c9fbcc7/raw/7fd3efda9009f902b5a991a506cea52db19ba143/
+# wards2014.json', collapse = ""))
+# res &lt;- file_to_geojson(x)
+# jsonlite::fromJSON(res)
+# res &lt;- file_to_geojson(x, method = "local")
+# jsonlite::fromJSON(res)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>geojsonio</em> version 0.9.4 <a href="00Index.html">Index</a>]</div>
+</body></html>
