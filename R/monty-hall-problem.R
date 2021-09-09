@@ -37,10 +37,14 @@ create_game <- function()
 #' @title
 #' Player Selects Door
 #' @description
+#' `select_door()` randomly generates a number representing one of three doors.
 #' @details
-#' @param 
-#' @return 
+#' This function represents the part of the game where the contestant
+#' blindly selects a door to be opened at the end of the game.
+#' @param ... no arguments used by this function
+#' @return The function returns a number (1, 2, or 3)
 #' @examples
+#' select_door()
 #' @export
 select_door <- function( )
 {
@@ -54,10 +58,18 @@ select_door <- function( )
 #' @title
 #' Open Door With Goat
 #' @description
+#' `open_goat_door` generates a door number that represents a goat
 #' @details
-#' @param 
-#' @return 
+#' This function represents the part of the game where the
+#' game-show host opens a door with a goat behind it. This
+#' door cannot contain a car and cannot be the contestant's pick.
+#' @param
+#' This function uses arguments game and a.pick in order to
+#' open a door that has a goat and is not the result of the
+#' select_door() function.
+#' @return The function returns a number (1, 2, or 3)
 #' @examples
+#' open_goat_door(game, a.pick)
 #' @export
 open_goat_door <- function( game, a.pick )
 {
@@ -81,10 +93,20 @@ open_goat_door <- function( game, a.pick )
 #' @title
 #' Stay or Switch doors
 #' @description
+#' `change_door` generates a door number that is not revealed by the host
 #' @details
-#' @param 
-#' @return 
+#' This function represents the part of the game where the host allows
+#' the contestant to stay with their initial door pick or switch
+#' for a chance at winning a car.
+#' @param
+#' This function uses arguments stay=T/F, opened.door, and a.pick
+#' in order to prevent from selecting the goat door opened by the host
+#' and to decide whether or not to use the contestant's initial
+#' pick (T or F).
+#' @return The function returns a number (1, 2, or 3)
 #' @examples
+#' change_door(stay=T, opened.door, a.pick) or
+#' change_door(stay=F, opened.door, a.pick)
 #' @export
 change_door <- function( stay=T, opened.door, a.pick )
 {
@@ -105,10 +127,17 @@ change_door <- function( stay=T, opened.door, a.pick )
 #' @title
 #' Determine Game Winner
 #' @description
+#' `determine_winner` returns 'WIN' or 'LOSE' based on game outcome
 #' @details
-#' @param 
-#' @return 
+#' This function represents the reveal where the host opens the door
+#' containing the contestant's final pick. The contestant WINS if
+#' their door has a car and LOSES if it has a goat.
+#' @param
+#' This function uses the arguments final.pick and game to determine
+#' if the contestant's door number represents a car position in the game.
+#' @return The function returns "WIN" or "LOSE" 
 #' @examples
+#' determine_winner(final.pick, game)
 #' @export
 determine_winner <- function( final.pick, game )
 {
@@ -129,10 +158,12 @@ determine_winner <- function( final.pick, game )
 #' @title
 #' Play Whole Game
 #' @description
+#' `play_game` runs the entire simulation above
 #' @details
-#' @param 
-#' @return 
+#' @param ... no parameters
+#' @return This function returns the game results (win or lose).
 #' @examples
+#' play_game()
 #' @export
 play_game <- function( )
 {
@@ -161,10 +192,16 @@ play_game <- function( )
 #' @title
 #' Play N Whole Games
 #' @description
+#' `play_n_games` allows you to run the game simulation for a selected
+#' number of times
 #' @details
-#' @param 
-#' @return 
+#' Simply enter the amount of games to complete n simulations.
+#' @param
+#' This function uses the argument n= to determine how many games to run.
+#' @return This function returns a datafram of results for n games.
 #' @examples
+#' play_n_games(n=100)
+#' play_n_games(n=5000)
 #' @export
 play_n_games <- function( n=100 )
 {
